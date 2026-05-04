@@ -1,0 +1,881 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>子連れ6家族で集まるスポット候補 | 名古屋西側ファミリー集合メモ</title>
+  <meta name="description" content="長久手・桑名・清洲の概略中心から半径30km目安で、子連れ6家族以上が集まりやすい公園・室内施設・商業施設を比較する共有用HTMLです。">
+  <style>
+    :root {
+      --ink: #17211d;
+      --muted: #5d6964;
+      --line: #dce4df;
+      --paper: #f8faf7;
+      --panel: #ffffff;
+      --mist: #eef4f1;
+      --green: #256f56;
+      --green-soft: #dceee7;
+      --blue: #2d6f9f;
+      --blue-soft: #dcecf4;
+      --coral: #c65f4a;
+      --coral-soft: #f5e1dc;
+      --gold: #9d742a;
+      --shadow: 0 24px 70px rgba(34, 53, 45, .12);
+      --radius: 8px;
+      font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, rgba(238,244,241,.92), rgba(248,250,247,.96) 460px),
+        radial-gradient(circle at 84% 12%, rgba(198,95,74,.16), transparent 300px),
+        radial-gradient(circle at 12% 20%, rgba(45,111,159,.14), transparent 280px);
+      line-height: 1.65;
+    }
+
+    a { color: inherit; }
+
+    .shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      min-height: 82vh;
+      display: grid;
+      align-items: end;
+      padding: 42px 0 28px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 440px);
+      gap: 28px;
+      align-items: end;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--green);
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 0;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+      font-size: clamp(42px, 7vw, 88px);
+      line-height: 1.04;
+      letter-spacing: 0;
+      margin: 0;
+      max-width: 920px;
+    }
+
+    .lead {
+      max-width: 680px;
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .hero-panel {
+      background: rgba(255,255,255,.78);
+      border: 1px solid rgba(220,228,223,.9);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      padding: 18px;
+      backdrop-filter: blur(16px);
+    }
+
+    .route-map {
+      min-height: 300px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--mist);
+    }
+
+    iframe {
+      display: block;
+      width: 100%;
+      border: 0;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .stat {
+      padding: 13px 12px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.3;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(248,250,247,.88);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+
+    .toolbar-inner {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      overflow-x: auto;
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: nowrap;
+    }
+
+    button,
+    .link-button {
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--panel);
+      color: var(--ink);
+      cursor: pointer;
+      padding: 0 16px;
+      font: inherit;
+      font-weight: 800;
+      white-space: nowrap;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease;
+    }
+
+    button:hover,
+    .link-button:hover,
+    button[aria-pressed="true"] {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+      box-shadow: 0 10px 28px rgba(37,111,86,.22);
+    }
+
+    button:focus-visible,
+    .link-button:focus-visible,
+    a:focus-visible {
+      outline: 3px solid rgba(45,111,159,.35);
+      outline-offset: 3px;
+    }
+
+    .section {
+      padding: 54px 0;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: end;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: clamp(26px, 4vw, 44px);
+      line-height: 1.15;
+      margin: 0;
+      letter-spacing: 0;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 520px;
+    }
+
+    .strategy {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .strategy-item {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.72);
+      padding: 18px;
+    }
+
+    .strategy-item h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .strategy-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .spot-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 16px 44px rgba(34, 53, 45, .08);
+      overflow: hidden;
+    }
+
+    .spot-card[data-hidden="true"] { display: none; }
+
+    .card-top {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      padding: 20px 20px 16px;
+      align-items: start;
+    }
+
+    .spot-card h3 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .meta {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .score {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--green-soft);
+      color: var(--green);
+      font-weight: 900;
+      font-size: 24px;
+    }
+
+    .map {
+      height: 220px;
+      background: var(--mist);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .card-body {
+      padding: 18px 20px 20px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .tag {
+      min-height: 30px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 0 10px;
+      font-size: 12px;
+      font-weight: 800;
+      background: var(--mist);
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+
+    .tag.free,
+    .tag.s { background: var(--green-soft); color: var(--green); border-color: #b8ddcf; }
+    .tag.paid,
+    .tag.a { background: var(--blue-soft); color: var(--blue); border-color: #b9d7e6; }
+    .tag.caution,
+    .tag.b { background: var(--coral-soft); color: var(--coral); border-color: #ecc6bd; }
+
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 0;
+    }
+
+    .fact {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px 11px;
+      min-height: 74px;
+    }
+
+    .fact dt {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      margin: 0 0 4px;
+    }
+
+    .fact dd {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .memo {
+      margin: 15px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .actions .link-button {
+      border-radius: var(--radius);
+      min-height: 42px;
+      padding: 0 12px;
+      font-size: 13px;
+    }
+
+    .line-note {
+      background: #13231d;
+      color: #f7fbf8;
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .line-note h2 { color: #fff; }
+
+    .line-note textarea {
+      width: 100%;
+      min-height: 270px;
+      margin-top: 16px;
+      resize: vertical;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      padding: 16px;
+      font: 15px/1.75 "Noto Sans JP", Meiryo, sans-serif;
+    }
+
+    .source-list {
+      columns: 2;
+      padding-left: 1.2em;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .source-list li { break-inside: avoid; margin-bottom: 8px; }
+
+    svg {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+    }
+
+    @media (max-width: 900px) {
+      .hero { min-height: auto; padding-top: 30px; }
+      .hero-grid,
+      .grid,
+      .strategy {
+        grid-template-columns: 1fr;
+      }
+      .section-head { display: block; }
+      .section-head p { margin-top: 10px; }
+      .summary { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 560px) {
+      .shell { width: min(100% - 22px, 1180px); }
+      .hero-panel { padding: 12px; }
+      .toolbar-inner { align-items: stretch; }
+      .filters { gap: 6px; }
+      button, .link-button { padding: 0 12px; font-size: 14px; }
+      .card-top { grid-template-columns: 1fr; }
+      .score { width: 52px; height: 52px; }
+      .facts { grid-template-columns: 1fr; }
+      .source-list { columns: 1; }
+      h1 { font-size: 40px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="shell hero-grid">
+      <div>
+        <p class="eyebrow">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-4.5 7-11a7 7 0 1 0-14 0c0 6.5 7 11 7 11Z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+          長久手・桑名・清洲の中間集合メモ
+        </p>
+        <h1>子連れ6家族で集まる場所を、迷わず決める。</h1>
+        <p class="lead">3駅の概略中心点を名古屋市中川区からあま市寄りに置き、半径30km目安で「駐車場」「雨天代替」「大人数耐性」を比較できるように整理しました。</p>
+      </div>
+      <aside class="hero-panel" aria-label="中心点の地図">
+        <div class="route-map">
+          <iframe title="3駅の概略中心点" src="https://www.google.com/maps?q=35.15455,136.85617&z=11&output=embed" height="300" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <div class="summary" aria-label="概要">
+          <div class="stat"><strong>12</strong><span>候補スポット</span></div>
+          <div class="stat"><strong>30km</strong><span>半径目安</span></div>
+          <div class="stat"><strong>3</strong><span>開催パターン</span></div>
+          <div class="stat"><strong>S/A/B</strong><span>大人数耐性</span></div>
+        </div>
+      </aside>
+    </div>
+  </header>
+
+  <nav class="toolbar" aria-label="スポット絞り込み">
+    <div class="shell toolbar-inner">
+      <div class="filters">
+        <button type="button" data-filter="all" aria-pressed="true">すべて</button>
+        <button type="button" data-filter="outdoor" aria-pressed="false">外の本命</button>
+        <button type="button" data-filter="indoor" aria-pressed="false">雨天代替</button>
+        <button type="button" data-filter="light" aria-pressed="false">軽め集合</button>
+        <button type="button" data-filter="freeParking" aria-pressed="false">無料駐車場</button>
+      </div>
+      <a class="link-button" href="#line-note">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8A2.5 2.5 0 0 1 17.5 16H9l-5 4V5.5Z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        LINE文面
+      </a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="section">
+      <div class="shell">
+        <div class="section-head">
+          <h2>開催の組み方</h2>
+          <p>最初から1か所に決め打ちせず、天気と人数で切り替えられる候補群にしておくと、6家族以上でも予定が崩れにくくなります。</p>
+        </div>
+        <div class="strategy">
+          <article class="strategy-item">
+            <h3>晴れの日は広い公園</h3>
+            <p>とだがわ、木曽三川、庄内緑地を本命に。芝生と駐車場の余裕を優先します。</p>
+          </article>
+          <article class="strategy-item">
+            <h3>雨・猛暑は屋内施設</h3>
+            <p>キッズランドUS、ピュアキッズ、アメイジングワールドを代替に。会員登録や料金は事前共有します。</p>
+          </article>
+          <article class="strategy-item">
+            <h3>短時間なら商業施設</h3>
+            <p>駅近や買い物併設の施設は、顔合わせや少人数の追加開催に向いています。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="spots">
+      <div class="shell">
+        <div class="section-head">
+          <h2>スポット候補</h2>
+          <p>カード内の地図で位置を確認し、ナビ・駐車場検索・公式サイトへすぐ移動できます。</p>
+        </div>
+        <div class="grid" id="spotGrid"></div>
+      </div>
+    </section>
+
+    <section class="section" id="line-note">
+      <div class="shell">
+        <div class="line-note">
+          <h2>LINEノート投稿用</h2>
+          <textarea readonly>【子連れ6家族以上で集まれそうな場所候補】
+
+起点：長久手・桑名・清洲のだいたい中心
+範囲：半径30km以内目安
+
+晴れの日の本命：
+1. とだがわこどもランド／戸田川緑地
+無料駐車場が多く、遊具・芝生・水遊びあり。大人数ピクニック向き。
+
+2. 木曽三川公園センター
+入園無料、無料駐車場が大きい。大型遊具と芝生があり、6家族以上でも使いやすい。
+
+3. 庄内緑地
+芝生、遊具、BBQ、サイクリングあり。駐車場は有料だが市内から集まりやすい。
+
+雨・猛暑の代替：
+キッズランドUS名古屋茶屋店、ピュアハートキッズランド、アメイジングワールド蟹江店。
+
+決め方：
+晴れなら公園、雨・猛暑なら屋内、短時間なら商業施設系で調整。
+各候補はHTMLに地図・駐車場・ナビリンク付きでまとめています。</textarea>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="section-head">
+          <h2>確認元</h2>
+          <p>営業時間・料金・駐車場は変更されるため、開催前に公式サイトの最新情報を確認してください。</p>
+        </div>
+        <ol class="source-list">
+          <li><a href="https://hagumin-net.pref.aichi.jp/facility/playground_search_detail/114" target="_blank" rel="noopener">とだがわこどもランド | あいち はぐみんNet</a></li>
+          <li><a href="https://www.city.nagoya.jp/ryokuseidoboku/page/0000005045.html" target="_blank" rel="noopener">戸田川緑地 | 名古屋市公式</a></li>
+          <li><a href="https://www.kisosansenkoen.jp/~center/index.html" target="_blank" rel="noopener">木曽三川公園センター | 公式</a></li>
+          <li><a href="https://www.city.kaizu.lg.jp/kosodate/0000000612.html" target="_blank" rel="noopener">木曽三川公園センター | 海津市</a></li>
+          <li><a href="https://shonai-ryokuchi.jp/access/parking.html" target="_blank" rel="noopener">庄内緑地 駐車場 | 公式</a></li>
+          <li><a href="https://shonai-ryokuchi.jp/bbqarea/" target="_blank" rel="noopener">庄内緑地 BBQ | 公式</a></li>
+          <li><a href="https://www.kisosansenkoen.jp/~tower138/" target="_blank" rel="noopener">138タワーパーク | 公式</a></li>
+          <li><a href="https://www.nikke-purekids.jp/shop/minato/" target="_blank" rel="noopener">ピュアハートキッズランド ポートウォークみなと | 公式</a></li>
+          <li><a href="https://kidslandus.com/shop/nagoya-chaya/" target="_blank" rel="noopener">キッズランドUS名古屋茶屋店 | 公式</a></li>
+          <li><a href="https://www.acc-aichi.org/access/" target="_blank" rel="noopener">愛知県児童総合センター アクセス | 公式</a></li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const spots = [
+      {
+        name: "とだがわこどもランド／戸田川緑地",
+        area: "名古屋市港区",
+        distance: "中心点から約7km目安",
+        category: "outdoor",
+        score: "S",
+        weather: "晴れ向き",
+        stay: "半日",
+        crowd: "中",
+        parking: "無料・約580台目安",
+        parkingType: "free",
+        fit: "6家族以上でも集まりやすい",
+        ages: "未就学児から小学生",
+        food: "ピクニック向き。本館内の飲食場所は限定的",
+        note: "大型イベント時は駐車場有料や混雑の可能性あり。朝集合が無難です。",
+        query: "とだがわこどもランド",
+        official: "https://hagumin-net.pref.aichi.jp/facility/playground_search_detail/114"
+      },
+      {
+        name: "木曽三川公園センター",
+        area: "岐阜県海津市",
+        distance: "中心点から約24km目安",
+        category: "outdoor",
+        score: "S",
+        weather: "晴れ向き",
+        stay: "半日から1日",
+        crowd: "中",
+        parking: "無料・1,231台",
+        parkingType: "free",
+        fit: "広場と駐車場に余裕あり",
+        ages: "未就学児から小学生",
+        food: "芝生で昼食を取りやすい",
+        note: "大型イベント日は混みやすいので、駐車場利用状況の確認がおすすめです。",
+        query: "木曽三川公園センター",
+        official: "https://www.kisosansenkoen.jp/~center/index.html"
+      },
+      {
+        name: "庄内緑地",
+        area: "名古屋市西区",
+        distance: "中心点から約11km目安",
+        category: "outdoor",
+        score: "A",
+        weather: "晴れ向き",
+        stay: "半日",
+        crowd: "中",
+        parking: "有料・643台",
+        parkingType: "paid",
+        fit: "芝生・遊具・BBQで分散しやすい",
+        ages: "未就学児から小学生",
+        food: "ピクニック、BBQ対応エリアあり",
+        note: "駐車場は7:00から21:30。BBQは公式ルールを事前確認してください。",
+        query: "庄内緑地",
+        official: "https://shonai-ryokuchi.jp/"
+      },
+      {
+        name: "138タワーパーク",
+        area: "愛知県一宮市",
+        distance: "中心点から約28km目安",
+        category: "outdoor",
+        score: "A",
+        weather: "晴れ向き",
+        stay: "半日から1日",
+        crowd: "中",
+        parking: "無料・700台",
+        parkingType: "free",
+        fit: "芝生、遊具、季節イベントで過ごしやすい",
+        ages: "未就学児から小学生",
+        food: "休憩所やキッチンカー日あり",
+        note: "フワフワドームは年齢・人数制限や天候停止があるため当日確認が必要です。",
+        query: "138タワーパーク",
+        official: "https://www.kisosansenkoen.jp/~tower138/"
+      },
+      {
+        name: "大高緑地",
+        area: "名古屋市緑区",
+        distance: "中心点から約23km目安",
+        category: "outdoor",
+        score: "A",
+        weather: "晴れ向き",
+        stay: "半日から1日",
+        crowd: "中",
+        parking: "無料駐車場あり",
+        parkingType: "free",
+        fit: "遊具、交通公園、デイキャンプで選択肢が多い",
+        ages: "未就学児から小学生",
+        food: "BBQ・デイキャンプ系の確認が必要",
+        note: "エリアが広いので、集合駐車場と集合場所を先に決めると迷いにくいです。",
+        query: "大高緑地",
+        official: "https://www.aichi-koen.com/odaka/"
+      },
+      {
+        name: "愛知県児童総合センター／モリコロパーク",
+        area: "長久手市",
+        distance: "中心点から約25km目安",
+        category: "indoor",
+        score: "A",
+        weather: "屋内あり",
+        stay: "半日",
+        crowd: "高",
+        parking: "有料・北1駐車場Cが最寄り",
+        parkingType: "paid",
+        fit: "屋内と公園を切り替えやすい",
+        ages: "未就学児から小学生",
+        food: "公園内施設を活用",
+        note: "中学生以下無料、大人有料。火曜休館が基本です。",
+        query: "愛知県児童総合センター",
+        official: "https://www.acc-aichi.org/access/"
+      },
+      {
+        name: "ピュアハートキッズランド ポートウォークみなと",
+        area: "名古屋市港区",
+        distance: "中心点から約7km目安",
+        category: "indoor",
+        score: "S",
+        weather: "全天候",
+        stay: "半日から1日",
+        crowd: "中",
+        parking: "無料・商業施設駐車場",
+        parkingType: "free",
+        fit: "大型室内遊び場で雨天代替に強い",
+        ages: "小学生以下",
+        food: "持ち込み食事を利用できるカフェあり",
+        note: "会員制。初回は会員証発行と本人確認書類が必要です。",
+        query: "ピュアハートキッズランド ポートウォークみなと",
+        official: "https://www.nikke-purekids.jp/shop/minato/"
+      },
+      {
+        name: "キッズランドUS 名古屋茶屋店",
+        area: "名古屋市港区",
+        distance: "中心点から約10km目安",
+        category: "indoor",
+        score: "S",
+        weather: "全天候",
+        stay: "半日",
+        crowd: "中",
+        parking: "無料・4,100台",
+        parkingType: "free",
+        fit: "約1,435平方メートルで大人数の保険候補",
+        ages: "未就学児から小学生",
+        food: "飲食コーナーあり",
+        note: "イオンモール内なので食事・買い物と組み合わせやすいです。",
+        query: "キッズランドUS 名古屋茶屋店",
+        official: "https://kidslandus.com/shop/nagoya-chaya/"
+      },
+      {
+        name: "アメイジングワールド 蟹江店",
+        area: "愛知県海部郡蟹江町",
+        distance: "中心点から約9km目安",
+        category: "indoor",
+        score: "S",
+        weather: "全天候",
+        stay: "半日",
+        crowd: "中",
+        parking: "館内駐車場あり",
+        parkingType: "free",
+        fit: "約700坪規模の屋内キッズパーク",
+        ages: "0歳から小学生",
+        food: "施設ルール確認",
+        note: "会員登録料が必要な場合があります。最新料金は公式で確認してください。",
+        query: "アメイジングワールド 蟹江店",
+        official: "https://www.hapipiland.com/kidspark/kanie/"
+      },
+      {
+        name: "あそびパークPLUS ららぽーと名古屋みなとアクルス",
+        area: "名古屋市港区",
+        distance: "中心点から約9km目安",
+        category: "light",
+        score: "A",
+        weather: "全天候",
+        stay: "2時間",
+        crowd: "高",
+        parking: "商業施設駐車場",
+        parkingType: "paid",
+        fit: "買い物・食事込みの軽め集合",
+        ages: "未就学児から低学年",
+        food: "館内飲食と組み合わせやすい",
+        note: "長時間の大人数滞在より、短時間集合向きです。",
+        query: "あそびパークPLUS ららぽーと名古屋みなとアクルス",
+        official: "https://bandainamco-am.co.jp/kids/asobiparkplus/"
+      },
+      {
+        name: "リトルプラネット mozoワンダーシティ",
+        area: "名古屋市西区",
+        distance: "中心点から約14km目安",
+        category: "light",
+        score: "A",
+        weather: "全天候",
+        stay: "2時間",
+        crowd: "高",
+        parking: "商業施設駐車場",
+        parkingType: "free",
+        fit: "デジタル遊び中心の短時間開催",
+        ages: "未就学児から小学生",
+        food: "館内飲食と組み合わせやすい",
+        note: "外遊びより体験型寄り。子どもの年齢差が大きい場合は確認が必要です。",
+        query: "リトルプラネット mozoワンダーシティ",
+        official: "https://litpla.com/space/litpla_mozo/"
+      },
+      {
+        name: "Cafe Dining LiLii Park",
+        area: "名古屋市西区",
+        distance: "中心点から約11km目安",
+        category: "light",
+        score: "A",
+        weather: "屋内",
+        stay: "2時間",
+        crowd: "低",
+        parking: "要確認",
+        parkingType: "paid",
+        fit: "予約・半貸切相談向き",
+        ages: "未就学児中心",
+        food: "食事込みで親が動きやすい",
+        note: "人数がまとまる場合は事前予約と席配置の確認が前提です。",
+        query: "Cafe Dining LiLii Park 名古屋",
+        official: "https://www.google.com/search?q=Cafe+Dining+LiLii+Park+名古屋"
+      }
+    ];
+
+    const grid = document.querySelector("#spotGrid");
+    const buttons = document.querySelectorAll("[data-filter]");
+
+    function iconPath(type) {
+      const icons = {
+        nav: '<path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
+        park: '<path d="M12 3v18M7 8c0-3 2-5 5-5s5 2 5 5c0 4-5 7-5 7s-5-3-5-7Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>',
+        link: '<path d="M10 13a5 5 0 0 0 7.1 0l2-2a5 5 0 0 0-7.1-7.1l-1.1 1.1M14 11a5 5 0 0 0-7.1 0l-2 2a5 5 0 1 0 7.1 7.1l1-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+        car: '<path d="M5 17h14l-1.5-6.5A2 2 0 0 0 15.6 9H8.4a2 2 0 0 0-1.9 1.5L5 17Zm2 0v2m10-2v2M7.5 14h.1m8.9 0h.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+      };
+      return `<svg viewBox="0 0 24 24" aria-hidden="true">${icons[type]}</svg>`;
+    }
+
+    function tagClass(value) {
+      if (value === "S") return "s";
+      if (value === "A") return "a";
+      if (value === "B") return "b";
+      return "";
+    }
+
+    function renderSpots(filter = "all") {
+      grid.innerHTML = spots.map((spot) => {
+        const hidden = filter === "all"
+          ? false
+          : filter === "freeParking"
+            ? spot.parkingType !== "free"
+            : spot.category !== filter;
+        const mapUrl = `https://www.google.com/maps?q=${encodeURIComponent(spot.query)}&output=embed`;
+        const navUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(spot.query)}`;
+        const parkingUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(spot.query + " 駐車場")}`;
+        const streetUrl = `https://www.google.com/maps?q=${encodeURIComponent(spot.query)}&layer=c`;
+        return `
+          <article class="spot-card" data-category="${spot.category}" data-hidden="${hidden}">
+            <div class="card-top">
+              <div>
+                <h3>${spot.name}</h3>
+                <div class="meta">${spot.area}｜${spot.distance}</div>
+              </div>
+              <div class="score" aria-label="大人数耐性 ${spot.score}">${spot.score}</div>
+            </div>
+            <div class="map">
+              <iframe title="${spot.name}の地図" src="${mapUrl}" height="220" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <div class="card-body">
+              <div class="tags">
+                <span class="tag ${tagClass(spot.score)}">大人数耐性 ${spot.score}</span>
+                <span class="tag ${spot.parkingType === "free" ? "free" : "paid"}">${spot.parking}</span>
+                <span class="tag ${spot.weather.includes("全天候") ? "free" : "caution"}">${spot.weather}</span>
+                <span class="tag">滞在 ${spot.stay}</span>
+                <span class="tag ${spot.crowd === "高" ? "caution" : ""}">混雑 ${spot.crowd}</span>
+              </div>
+              <dl class="facts">
+                <div class="fact"><dt>集合しやすさ</dt><dd>${spot.fit}</dd></div>
+                <div class="fact"><dt>年齢目安</dt><dd>${spot.ages}</dd></div>
+                <div class="fact"><dt>食事</dt><dd>${spot.food}</dd></div>
+                <div class="fact"><dt>注意点</dt><dd>${spot.note}</dd></div>
+              </dl>
+              <div class="actions">
+                <a class="link-button" href="${navUrl}" target="_blank" rel="noopener">${iconPath("nav")}ナビ開始</a>
+                <a class="link-button" href="${parkingUrl}" target="_blank" rel="noopener">${iconPath("car")}駐車場検索</a>
+                <a class="link-button" href="${streetUrl}" target="_blank" rel="noopener">${iconPath("park")}入口確認</a>
+                <a class="link-button" href="${spot.official}" target="_blank" rel="noopener">${iconPath("link")}公式</a>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        buttons.forEach((item) => item.setAttribute("aria-pressed", "false"));
+        button.setAttribute("aria-pressed", "true");
+        renderSpots(button.dataset.filter);
+      });
+    });
+
+    renderSpots();
+  </script>
+</body>
+</html>
