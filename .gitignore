@@ -4,3 +4,6 @@ Thumbs.db
 # Claude / local agent files
 .claude/
 CLAUDE.md
+commands.md
+context.md
+rules.md
