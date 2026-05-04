@@ -589,9 +589,7 @@
         font-size: 11px;
         padding: 0 8px;
       }
-      .tag:nth-child(1),
-      .tag:nth-child(3),
-      .tag:nth-child(4) {
+      .tag.priority-tag {
         display: inline-flex;
       }
       .score { width: 52px; height: 52px; }
@@ -639,7 +637,7 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-4.5 7-11a7 7 0 1 0-14 0c0 6.5 7 11 7 11Z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
           長久手・桑名・清洲の中間集合メモ
         </p>
-        <h1>子連れ家族で集まるなら、まずは「晴れ・雨・短時間」で選ぶ。</h1>
+        <h1>子連れ家族で集まるなら、まずは「晴れ・雨・季節」で選ぶ。</h1>
         <p class="lead">集まりやすい場所を、駐車場の広さ・雨天対応・大人数での使いやすさで比較しました。迷ったら、まず下の候補から選べばOKです。</p>
         <div class="quick-answer" aria-label="迷ったときのおすすめ">
           <h2>迷ったらこの4つ</h2>
@@ -1278,6 +1276,17 @@
       return spot.member.includes("必須") || spot.member.includes("会員") || spot.member.includes("LINE") || spot.member.includes("アプリ");
     }
 
+    function waterPlayStatus(spot) {
+      const statuses = {
+        "とだがわこどもランド／戸田川緑地": "水遊びあり",
+        "木曽三川公園センター": "夏季水遊び向き",
+        "138タワーパーク": "季節水遊び向き",
+        "大高緑地": "夏季水遊び向き",
+        "ふれあいの里 HASUパーク": "季節水遊び向き"
+      };
+      return statuses[spot.name] || "";
+    }
+
     function shouldHideSpot(spot, filter) {
       if (filter === "all") return false;
       if (filter === "freeParking") return spot.parkingType !== "free";
@@ -1352,17 +1361,19 @@
                 </label>
               </div>
               <div class="tags">
-                <span class="tag ${tagClass(spot.score)}">大人数耐性 ${spot.score}</span>
+                <span class="tag priority-tag ${tagClass(spot.score)}">大人数耐性 ${spot.score}</span>
                 <span class="tag ${spot.parkingType === "free" ? "free" : "paid"}">${spot.parking}</span>
-                <span class="tag ${spot.weather.includes("全天候") ? "free" : "caution"}">${spot.weather}</span>
-                <span class="tag">滞在 ${spot.stay}</span>
+                <span class="tag priority-tag ${spot.weather.includes("全天候") ? "free" : "caution"}">${spot.weather}</span>
+                <span class="tag priority-tag">滞在 ${spot.stay}</span>
                 <span class="tag ${spot.crowd === "高" ? "caution" : ""}">混雑 ${spot.crowd}</span>
+                ${waterPlayStatus(spot) ? `<span class="tag priority-tag free">${waterPlayStatus(spot)}</span>` : ""}
                 <span class="tag ${isReservationRequired(spot) ? "caution" : "free"}">予約 ${spot.reservation}</span>
                 <span class="tag ${isMemberRequired(spot) ? "caution" : "free"}">会員 ${spot.member}</span>
               </div>
               <dl class="facts">
                 <div class="fact"><dt>駐車場</dt><dd>${spot.parking}</dd></div>
                 <div class="fact"><dt>料金</dt><dd>${spot.price}</dd></div>
+                <div class="fact"><dt>滞在可能時間目安</dt><dd>${spot.stay}</dd></div>
                 <div class="fact"><dt>予約</dt><dd>${spot.reservation}</dd></div>
                 <div class="fact"><dt>おむつ替え</dt><dd>${spot.diaper}</dd></div>
               </dl>
