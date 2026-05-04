@@ -670,7 +670,7 @@
           <iframe title="3駅の概略中心点" src="https://www.google.com/maps?q=35.15455,136.85617&z=11&output=embed" height="300" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
         <div class="summary" aria-label="概要">
-          <div class="stat"><strong>20</strong><span>候補スポット</span></div>
+          <div class="stat"><strong>22</strong><span>候補スポット</span></div>
           <div class="stat"><strong>30km</strong><span>半径目安</span></div>
           <div class="stat"><strong>3</strong><span>開催パターン</span></div>
           <div class="stat"><strong>S/A/B</strong><span>大人数耐性</span></div>
@@ -762,7 +762,9 @@
           <li><a href="https://www.city.kaizu.lg.jp/kodomo-miraikan/" target="_blank" rel="noopener">海津市こども未来館 ZüTTo | 公式</a></li>
           <li><a href="https://gurin-gurin.g-asuka.co.jp/" target="_blank" rel="noopener">春日井市子ども屋内遊び場 ぐりんぐりん | 公式</a></li>
           <li><a href="https://www.aichishinrin.jp/" target="_blank" rel="noopener">愛知県森林公園 | 公式</a></li>
+          <li><a href="https://inabeui.com/" target="_blank" rel="noopener">遊べる廃校 ういこっちゃね。 | 公式</a></li>
           <li><a href="https://kodomocchi-park.com/parks/7m60gk8y" target="_blank" rel="noopener">こどもっちパーク 名古屋みなとパーク | 公式</a></li>
+          <li><a href="https://www.oasispark.co.jp/asobu/" target="_blank" rel="noopener">オアシスパーク あそぶ | 公式</a></li>
           <li><a href="https://bunkaen-todagawa.jp/" target="_blank" rel="noopener">農業文化園・戸田川緑地 | 公式</a></li>
           <li><a href="https://hasupark-aisai.jp/" target="_blank" rel="noopener">ふれあいの里 HASUパーク | 公式</a></li>
           <li><a href="https://tanpopocafe6363.jimdofree.com/" target="_blank" rel="noopener">たんぽぽカフェ | 公式</a></li>
@@ -1056,6 +1058,29 @@
         official: "https://kodomocchi-park.com/parks/7m60gk8y"
       },
       {
+        name: "遊べる廃校 ういこっちゃね。",
+        area: "三重県いなべ市藤原町",
+        distance: "中心点から約35km目安",
+        category: "indoor",
+        score: "A",
+        weather: "屋内あり",
+        stay: "半日",
+        crowd: "低",
+        parking: "旧中里小学校・駐車場は要確認",
+        parkingType: "paid",
+        price: "料金・営業日は公式またはInstagramで要確認",
+        toilet: "校舎内トイレを要確認",
+        diaper: "おむつ替え設備は要確認",
+        reservation: "Instagram DM等で事前確認推奨",
+        member: "不要",
+        fit: "廃校体育館を使った屋内遊び。雨の日や季節に左右されにくい",
+        ages: "未就学児から小学生",
+        food: "カフェあり。利用条件は要確認",
+        note: "中心点からはやや遠め。営業日・料金・団体利用可否を事前確認してください。",
+        query: "遊べる廃校 ういこっちゃね",
+        official: "https://inabeui.com/"
+      },
+      {
         name: "アメイジングワールド 蟹江店",
         area: "愛知県海部郡蟹江町",
         distance: "中心点から約9km目安",
@@ -1100,6 +1125,29 @@
         note: "長時間の外遊び目的なら、遊具や広場の利用状況を事前確認してください。",
         query: "ふれあいの里 HASUパーク",
         official: "https://hasupark-aisai.jp/"
+      },
+      {
+        name: "オアシスパーク",
+        area: "岐阜県各務原市",
+        distance: "中心点から約28km目安",
+        category: "outdoor",
+        score: "A",
+        weather: "晴れ向き",
+        stay: "半日から1日",
+        crowd: "中",
+        parking: "中央駐車場が便利。無料駐車場あり",
+        parkingType: "free",
+        price: "入園無料。観覧車・トレジャーストーン等は有料",
+        toilet: "園内トイレあり",
+        diaper: "おむつ替え設備は園内マップで要確認",
+        reservation: "不要",
+        member: "不要",
+        fit: "遊具・水遊び・飲食がまとまり、大人数でも分散しやすい",
+        ages: "乳幼児から小学生",
+        food: "カフェ・売店・テイクアウトと組み合わせやすい",
+        note: "水遊びは季節・天候で休止あり。中央駐車場集合にすると分かりやすいです。",
+        query: "オアシスパーク 各務原",
+        official: "https://www.oasispark.co.jp/asobu/"
       },
       {
         name: "たんぽぽカフェ",
@@ -1282,9 +1330,38 @@
         "木曽三川公園センター": "夏季水遊び向き",
         "138タワーパーク": "季節水遊び向き",
         "大高緑地": "夏季水遊び向き",
+        "オアシスパーク": "水遊び充実",
         "ふれあいの里 HASUパーク": "季節水遊び向き"
       };
       return statuses[spot.name] || "";
+    }
+
+    function playTypes(spot) {
+      const types = {
+        "とだがわこどもランド／戸田川緑地": "大型遊具、芝生、水遊び、外遊び",
+        "木曽三川公園センター": "大型遊具、芝生、展望タワー、季節の花",
+        "庄内緑地": "芝生、わんぱく広場、サイクリング、ボート、BBQ",
+        "138タワーパーク": "大型遊具、芝生、季節イベント、展望タワー",
+        "大高緑地": "恐竜広場、交通公園、ゴーカート、デイキャンプ",
+        "愛知県児童総合センター／モリコロパーク": "屋内展示・遊び、公園、広場",
+        "ピュアハートキッズランド ポートウォークみなと": "大型室内遊具、ボールプール、砂場系、ままごと",
+        "キッズランドUS 名古屋茶屋店": "巨大ジャングルジム、ボールプール、ゲーム、室内遊具",
+        "海津市こども未来館 ZüTTo": "屋内キッズ広場、無料エリア、カフェ",
+        "春日井市子ども屋内遊び場 ぐりんぐりん": "屋内遊具、体を動かす遊び",
+        "愛知県森林公園": "広場、散策、自然遊び、屋内休憩所",
+        "こどもっちパーク 名古屋みなとパーク": "屋内遊具、乳幼児向け遊び、休憩スペース",
+        "遊べる廃校 ういこっちゃね。": "体育館遊具、すべり台、登る遊具、バランス遊び、サーカス体験",
+        "アメイジングワールド 蟹江店": "大型室内遊具、ふわふわ遊具、乳幼児エリア",
+        "ふれあいの里 HASUパーク": "公園、休憩、買い物、季節の水辺遊び",
+        "オアシスパーク": "さかなの遊具、水遊び・噴水、巨大迷路、観覧車、芝生",
+        "たんぽぽカフェ": "おもちゃ、絵本、キッズスペース",
+        "あそびパークPLUS ららぽーと名古屋みなとアクルス": "デジタル遊具、身体遊び、商業施設内遊び",
+        "のびっこピクニック 春日井店": "屋内遊具、飲食スペース、乳幼児向け遊び",
+        "リトルプラネット mozoワンダーシティ": "AR砂遊び、デジタル遊具、体験型アトラクション",
+        "キッズランドUS 愛知瀬戸店": "室内遊具、ボールプール、ゲーム、体を動かす遊び",
+        "【閉店】Cafe Dining LiLii Park": "キッズスペース、食事、親子カフェ"
+      };
+      return types[spot.name] || "公式サイトで要確認";
     }
 
     function shouldHideSpot(spot, filter) {
@@ -1318,6 +1395,8 @@
           `${spot.area}｜${spot.weather}｜滞在 ${spot.stay}`,
           `駐車場：${spot.parking}`,
           `料金：${spot.price}`,
+          `遊具・遊び：${playTypes(spot)}`,
+          `年齢層：${spot.ages}`,
           `予約：${spot.reservation}｜会員登録：${spot.member}`,
           `トイレ：${spot.toilet}｜おむつ替え：${spot.diaper}`,
           `メモ：${spot.fit}`,
@@ -1373,6 +1452,8 @@
               <dl class="facts">
                 <div class="fact"><dt>駐車場</dt><dd>${spot.parking}</dd></div>
                 <div class="fact"><dt>料金</dt><dd>${spot.price}</dd></div>
+                <div class="fact"><dt>遊具・遊び</dt><dd>${playTypes(spot)}</dd></div>
+                <div class="fact"><dt>年齢層</dt><dd>${spot.ages}</dd></div>
                 <div class="fact"><dt>滞在可能時間目安</dt><dd>${spot.stay}</dd></div>
                 <div class="fact"><dt>予約</dt><dd>${spot.reservation}</dd></div>
                 <div class="fact"><dt>おむつ替え</dt><dd>${spot.diaper}</dd></div>
@@ -1381,7 +1462,7 @@
                 <summary>詳しい情報</summary>
                 <dl class="facts">
                   <div class="fact"><dt>集合しやすさ</dt><dd>${spot.fit}</dd></div>
-                  <div class="fact"><dt>年齢目安</dt><dd>${spot.ages}</dd></div>
+                  <div class="fact"><dt>年齢層</dt><dd>${spot.ages}</dd></div>
                   <div class="fact"><dt>トイレ</dt><dd>${spot.toilet}</dd></div>
                   <div class="fact"><dt>会員登録</dt><dd>${spot.member}</dd></div>
                   <div class="fact"><dt>食事</dt><dd>${spot.food}</dd></div>
