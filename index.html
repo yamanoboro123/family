@@ -85,6 +85,64 @@
       font-size: 17px;
     }
 
+    .quick-answer {
+      margin-top: 30px;
+    }
+
+    .quick-answer h2 {
+      font-size: 18px;
+      line-height: 1.3;
+      margin: 0 0 12px;
+      font-family: inherit;
+    }
+
+    .quick-cards {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .quick-card {
+      min-height: 132px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 14px;
+      border: 1px solid rgba(220,228,223,.95);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.84);
+      text-decoration: none;
+      box-shadow: 0 12px 32px rgba(34,53,45,.08);
+      transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+    }
+
+    .quick-card:hover {
+      border-color: var(--green);
+      box-shadow: 0 18px 42px rgba(37,111,86,.16);
+      transform: translateY(-2px);
+    }
+
+    .quick-card strong {
+      color: var(--green);
+      font-size: 13px;
+      line-height: 1.3;
+    }
+
+    .quick-card span {
+      display: block;
+      font-weight: 900;
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    .quick-card small {
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
     .hero-panel {
       background: rgba(255,255,255,.78);
       border: 1px solid rgba(220,228,223,.9);
@@ -425,6 +483,9 @@
       .strategy {
         grid-template-columns: 1fr;
       }
+      .quick-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
       .section-head { display: block; }
       .section-head p { margin-top: 10px; }
       .summary { grid-template-columns: repeat(2, 1fr); }
@@ -439,6 +500,8 @@
       .card-top { grid-template-columns: 1fr; }
       .score { width: 52px; height: 52px; }
       .facts { grid-template-columns: 1fr; }
+      .quick-cards { grid-template-columns: 1fr; }
+      .quick-card { min-height: 112px; }
       .source-list { columns: 1; }
       h1 { font-size: 40px; }
     }
@@ -460,8 +523,33 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-4.5 7-11a7 7 0 1 0-14 0c0 6.5 7 11 7 11Z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
           長久手・桑名・清洲の中間集合メモ
         </p>
-        <h1>子連れ6家族で集まる場所を、迷わず決める。</h1>
-        <p class="lead">3駅の概略中心点を名古屋市中川区からあま市寄りに置き、半径30km目安で「駐車場」「雨天代替」「大人数耐性」を比較できるように整理しました。</p>
+        <h1>子連れ家族で集まるなら、まずは「晴れ・雨・短時間」で選ぶ。</h1>
+        <p class="lead">集まりやすい場所を、駐車場の広さ・雨天対応・大人数での使いやすさで比較しました。迷ったら、まず下の候補から選べばOKです。</p>
+        <div class="quick-answer" aria-label="迷ったときのおすすめ">
+          <h2>迷ったらこの4つ</h2>
+          <div class="quick-cards">
+            <a class="quick-card" href="#todagawa">
+              <strong>晴れの日の本命</strong>
+              <span>とだがわこどもランド</span>
+              <small>無料駐車場多め・芝生・遊具</small>
+            </a>
+            <a class="quick-card" href="#kidslandus">
+              <strong>雨の日の本命</strong>
+              <span>キッズランドUS 名古屋茶屋店</span>
+              <small>屋内・駐車場大・商業施設内</small>
+            </a>
+            <a class="quick-card" href="#kisosansen">
+              <strong>大人数なら</strong>
+              <span>木曽三川公園センター</span>
+              <small>無料駐車場1,000台超・広い</small>
+            </a>
+            <a class="quick-card" href="#lalaport">
+              <strong>短時間なら</strong>
+              <span>ららぽーと名古屋みなとアクルス</span>
+              <small>食事・買い物とセットで調整しやすい</small>
+            </a>
+          </div>
+        </div>
       </div>
       <aside class="hero-panel" aria-label="中心点の地図">
         <div class="route-map">
@@ -590,6 +678,7 @@
   <script>
     const spots = [
       {
+        slug: "todagawa",
         name: "とだがわこどもランド／戸田川緑地",
         area: "名古屋市港区",
         distance: "中心点から約7km目安",
@@ -608,6 +697,7 @@
         official: "https://hagumin-net.pref.aichi.jp/facility/playground_search_detail/114"
       },
       {
+        slug: "kisosansen",
         name: "木曽三川公園センター",
         area: "岐阜県海津市",
         distance: "中心点から約24km目安",
@@ -716,6 +806,7 @@
         official: "https://www.nikke-purekids.jp/shop/minato/"
       },
       {
+        slug: "kidslandus",
         name: "キッズランドUS 名古屋茶屋店",
         area: "名古屋市港区",
         distance: "中心点から約10km目安",
@@ -860,6 +951,7 @@
         official: "https://tanpopocafe6363.jimdofree.com/"
       },
       {
+        slug: "lalaport",
         name: "あそびパークPLUS ららぽーと名古屋みなとアクルス",
         area: "名古屋市港区",
         distance: "中心点から約9km目安",
@@ -983,7 +1075,7 @@
         const parkingUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(spot.query + " 駐車場")}`;
         const streetUrl = `https://www.google.com/maps?q=${encodeURIComponent(spot.query)}&layer=c`;
         return `
-          <article class="spot-card" data-category="${spot.category}" data-hidden="${hidden}">
+          <article class="spot-card" ${spot.slug ? `id="${spot.slug}"` : ""} data-category="${spot.category}" data-hidden="${hidden}">
             <div class="card-top">
               <div>
                 <h3>${spot.name}</h3>
