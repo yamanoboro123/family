@@ -364,6 +364,27 @@
       padding: 18px 20px 20px;
     }
 
+    .select-row {
+      margin-bottom: 14px;
+    }
+
+    .select-row label {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-weight: 900;
+      color: var(--green);
+    }
+
+    .select-row input {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--green);
+      cursor: pointer;
+    }
+
     .tags {
       display: flex;
       flex-wrap: wrap;
@@ -573,6 +594,9 @@
         <button type="button" data-filter="indoor" aria-pressed="false">雨天代替</button>
         <button type="button" data-filter="light" aria-pressed="false">軽め集合</button>
         <button type="button" data-filter="freeParking" aria-pressed="false">無料駐車場</button>
+        <button type="button" data-filter="reservationRequired" aria-pressed="false">予約必須</button>
+        <button type="button" data-filter="noReservation" aria-pressed="false">予約なしOK</button>
+        <button type="button" data-filter="memberRequired" aria-pressed="false">会員登録あり</button>
       </div>
       <a class="link-button" href="#line-note">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8A2.5 2.5 0 0 1 17.5 16H9l-5 4V5.5Z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
@@ -619,27 +643,9 @@
       <div class="shell">
         <div class="line-note">
           <h2>LINEノート投稿用</h2>
-          <textarea readonly>【子連れ6家族以上で集まれそうな場所候補】
+          <textarea id="lineNoteText" readonly>候補カードの「LINEノートに入れる」にチェックすると、ここに投稿文が自動で作られます。
 
-起点：長久手・桑名・清洲のだいたい中心
-範囲：半径30km以内目安
-
-晴れの日の本命：
-1. とだがわこどもランド／戸田川緑地
-無料駐車場が多く、遊具・芝生・水遊びあり。大人数ピクニック向き。
-
-2. 木曽三川公園センター
-入園無料、無料駐車場が大きい。大型遊具と芝生があり、6家族以上でも使いやすい。
-
-3. 庄内緑地
-芝生、遊具、BBQ、サイクリングあり。駐車場は有料だが市内から集まりやすい。
-
-雨・猛暑の代替：
-キッズランドUS名古屋茶屋店、ピュアハートキッズランド、アメイジングワールド蟹江店。
-
-決め方：
-晴れなら公園、雨・猛暑なら屋内、短時間なら商業施設系で調整。
-各候補はHTMLに地図・駐車場・ナビリンク付きでまとめています。</textarea>
+迷ったら、晴れ・雨・大人数・短時間の候補から1つずつ選ぶと共有しやすいです。</textarea>
         </div>
       </div>
     </section>
@@ -692,6 +698,8 @@
         price: "入園無料。一部乗り物・イベントは有料の場合あり",
         toilet: "トイレあり。多目的トイレあり",
         diaper: "おむつ替え台・授乳コーナーあり",
+        reservation: "不要",
+        member: "不要",
         fit: "6家族以上でも集まりやすい",
         ages: "未就学児から小学生",
         food: "ピクニック向き。本館内の飲食場所は限定的",
@@ -714,6 +722,8 @@
         price: "入園無料。展望タワーは大人630円・小中学生300円",
         toilet: "トイレあり。障害者用トイレあり",
         diaper: "障害者用トイレにベビーベッドあり",
+        reservation: "不要",
+        member: "不要",
         fit: "広場と駐車場に余裕あり",
         ages: "未就学児から小学生",
         food: "芝生で昼食を取りやすい",
@@ -735,6 +745,8 @@
         price: "入園無料。駐車場は普通車1時間以内200円から",
         toilet: "トイレあり。多目的トイレあり",
         diaper: "おむつ替え台あり",
+        reservation: "通常不要。BBQ等はルール確認",
+        member: "不要",
         fit: "芝生・遊具・BBQで分散しやすい",
         ages: "未就学児から小学生",
         food: "ピクニック、BBQ対応エリアあり",
@@ -756,6 +768,8 @@
         price: "入園無料。ツインアーチ138展望階は有料",
         toilet: "トイレあり。多目的トイレあり",
         diaper: "ベビーベッド・おむつ替え台あり",
+        reservation: "不要",
+        member: "不要",
         fit: "芝生、遊具、季節イベントで過ごしやすい",
         ages: "未就学児から小学生",
         food: "休憩所やキッチンカー日あり",
@@ -777,6 +791,8 @@
         price: "公園利用は無料。ゴーカート・ボート等は有料",
         toilet: "トイレあり",
         diaper: "おむつ替えは管理棟・多目的トイレ等を要確認",
+        reservation: "通常不要。デイキャンプ等は予約確認",
+        member: "不要",
         fit: "遊具、交通公園、デイキャンプで選択肢が多い",
         ages: "未就学児から小学生",
         food: "BBQ・デイキャンプ系の確認が必要",
@@ -798,6 +814,8 @@
         price: "中学生以下無料、大人300円。駐車場は別料金",
         toilet: "トイレあり。多目的トイレあり",
         diaper: "ベビーベッド・おむつ替え台あり",
+        reservation: "通常不要。イベント・団体は確認",
+        member: "不要",
         fit: "屋内と公園を切り替えやすい",
         ages: "未就学児から小学生",
         food: "公園内施設を活用",
@@ -819,6 +837,8 @@
         price: "平日1日1,200円目安、休日1,500円目安。0・1歳無料",
         toilet: "施設内トイレあり",
         diaper: "おむつ替え室・授乳室あり",
+        reservation: "通常不要。混雑日は確認",
+        member: "会員登録必須",
         fit: "大型室内遊び場で雨天代替に強い",
         ages: "小学生以下",
         food: "持ち込み食事を利用できるカフェあり",
@@ -841,6 +861,8 @@
         price: "時間制・1日パック制。時期により変動するため公式確認",
         toilet: "イオンモール内トイレを利用",
         diaper: "モール内のおむつ替え・授乳設備を利用",
+        reservation: "通常不要。混雑日は確認",
+        member: "会員登録あり",
         fit: "約1,435平方メートルで大人数の保険候補",
         ages: "未就学児から小学生",
         food: "飲食コーナーあり",
@@ -862,10 +884,12 @@
         price: "1階無料エリアあり。2階キッズ広場は有料",
         toilet: "トイレあり",
         diaper: "乳幼児設備は公式・現地で要確認",
+        reservation: "直前でも予約を取りやすい",
+        member: "予約システム利用あり",
         fit: "屋内キッズ広場と無料エリアを使い分けできる",
         ages: "6か月から小学生",
         food: "カフェスペースあり",
-        note: "2階キッズ広場は有料で最終入場16:00。木曜休館が基本です。",
+        note: "2階キッズ広場は有料で最終入場16:00。直前でも予約を取りやすい候補です。",
         query: "海津市こども未来館 ZüTTo",
         official: "https://www.city.kaizu.lg.jp/kodomo-miraikan/"
       },
@@ -883,10 +907,12 @@
         price: "有料。予約・料金体系は公式で要確認",
         toilet: "トイレあり",
         diaper: "おむつ替え設備は公式・現地で要確認",
+        reservation: "事前予約必須",
+        member: "LINE登録が必要",
         fit: "雨天時の屋内代替として使いやすい",
         ages: "未就学児から小学生",
         food: "利用ルール確認",
-        note: "利用にはLINE登録が必要です。予約や入場条件を事前共有してください。",
+        note: "事前予約必須。利用にはLINE登録が必要です。入場条件を事前共有してください。",
         query: "春日井市子ども屋内遊び場 ぐりんぐりん",
         official: "https://gurin-gurin.g-asuka.co.jp/"
       },
@@ -904,6 +930,8 @@
         price: "一般公園利用は無料。有料施設は別料金",
         toilet: "トイレあり。屋内休憩所あり",
         diaper: "おむつ替えシートあり",
+        reservation: "不要",
+        member: "不要",
         fit: "第一駐車場を集合場所にすると分かりやすい。広い公園で分散しやすい",
         ages: "未就学児から小学生",
         food: "ピクニック向き。屋内休憩所も使える",
@@ -925,6 +953,8 @@
         price: "時間制。平日600円/人、休日800円/人目安",
         toilet: "ファニチャードーム内トイレを利用",
         diaper: "授乳室・おむつ替えはファニチャードーム内設備を利用",
+        reservation: "アプリ予約可",
+        member: "アプリ・会員プランあり",
         fit: "収容人数250人で混雑回避の代替にしやすい",
         ages: "乳幼児から小学生",
         food: "館内設備と組み合わせ",
@@ -946,6 +976,8 @@
         price: "有料。会員登録料・入場料は公式で要確認",
         toilet: "トイレあり",
         diaper: "乳幼児設備は公式・現地で要確認",
+        reservation: "通常不要。混雑日は確認",
+        member: "会員登録あり",
         fit: "約700坪規模の屋内キッズパーク",
         ages: "0歳から小学生",
         food: "施設ルール確認",
@@ -967,6 +999,8 @@
         price: "入場・施設利用料は公式で要確認",
         toilet: "トイレあり",
         diaper: "おむつ替え設備は現地で要確認",
+        reservation: "不要",
+        member: "不要",
         fit: "道の駅系で集合・休憩・買い物を組み合わせやすい",
         ages: "未就学児から小学生",
         food: "飲食・買い物と組み合わせやすい",
@@ -988,10 +1022,12 @@
         price: "ごはん注文必須。予約必須",
         toilet: "店内トイレあり",
         diaper: "おむつ替えシートあり",
-        fit: "予約前提で3時間滞在でき、食事込みの集合に向く",
+        reservation: "予約必須",
+        member: "不要",
+        fit: "基本貸し切り利用。予約前提で3時間滞在でき、食事込みの集合に向く",
         ages: "乳幼児から未就学児",
         food: "ごはん注文必須。おもちゃ・絵本常設",
-        note: "予約必須。6家族以上なら席数、外部無料駐車場の場所、車の台数配分を事前共有してください。",
+        note: "基本貸し切り利用。予約必須。6家族以上なら席数、外部無料駐車場の場所、車の台数配分を事前共有してください。",
         query: "たんぽぽカフェ 東員町",
         official: "https://tanpopocafe6363.jimdofree.com/"
       },
@@ -1010,6 +1046,8 @@
         price: "平日30分700円から、休日30分800円から。大人有料",
         toilet: "ららぽーと館内トイレを利用",
         diaper: "ららぽーと館内のおむつ替え・授乳設備を利用",
+        reservation: "通常不要。混雑日は確認",
+        member: "不要",
         fit: "買い物・食事込みの軽め集合",
         ages: "未就学児から低学年",
         food: "館内飲食と組み合わせやすい",
@@ -1031,6 +1069,8 @@
         price: "有料。0歳はアプリ会員で無料",
         toilet: "イオン春日井店内トイレを利用",
         diaper: "イオン春日井店内の乳幼児設備を利用",
+        reservation: "通常不要。事前登録推奨",
+        member: "アプリ会員あり",
         fit: "商業施設内の屋内遊び場で代替開催しやすい",
         ages: "0歳から小学生",
         food: "飲食スペースあり",
@@ -1052,6 +1092,8 @@
         price: "会員登録600円。平日30分700円から、休日30分960円から",
         toilet: "mozo館内トイレを利用",
         diaper: "mozo館内のおむつ替え・授乳設備を利用",
+        reservation: "Webチケット推奨。通常は当日利用可",
+        member: "会員登録必須",
         fit: "デジタル遊び中心の短時間開催",
         ages: "未就学児から小学生",
         food: "館内飲食と組み合わせやすい",
@@ -1073,6 +1115,8 @@
         price: "時間制・パック制。時期により変動するため公式確認",
         toilet: "施設または商業施設内トイレを利用",
         diaper: "乳幼児設備は公式・現地で要確認",
+        reservation: "通常不要。混雑日は確認",
+        member: "会員登録あり",
         fit: "室内遊園地として雨・猛暑の代替に使える",
         ages: "未就学児から小学生",
         food: "施設ルール確認",
@@ -1081,7 +1125,7 @@
         official: "https://kidslandus.com/shop/aichi-seto/"
       },
       {
-        name: "Cafe Dining LiLii Park",
+        name: "【閉店】Cafe Dining LiLii Park",
         area: "名古屋市西区",
         distance: "中心点から約11km目安",
         category: "light",
@@ -1094,6 +1138,8 @@
         price: "飲食代制。予約・貸切条件は要確認",
         toilet: "店内トイレを要確認",
         diaper: "おむつ替えスペースは予約時確認",
+        reservation: "予約推奨",
+        member: "不要",
         fit: "予約・半貸切相談向き",
         ages: "未就学児中心",
         food: "食事込みで親が動きやすい",
@@ -1105,6 +1151,8 @@
 
     const grid = document.querySelector("#spotGrid");
     const buttons = document.querySelectorAll("[data-filter]");
+    const lineNoteText = document.querySelector("#lineNoteText");
+    const selectedSpots = new Set();
 
     function iconPath(type) {
       const icons = {
@@ -1123,13 +1171,65 @@
       return "";
     }
 
+    function isReservationRequired(spot) {
+      return spot.reservation.includes("必須");
+    }
+
+    function isNoReservation(spot) {
+      return spot.reservation.includes("不要") || spot.reservation.includes("通常不要") || spot.reservation.includes("直前でも");
+    }
+
+    function isMemberRequired(spot) {
+      return spot.member.includes("必須") || spot.member.includes("会員") || spot.member.includes("LINE") || spot.member.includes("アプリ");
+    }
+
+    function shouldHideSpot(spot, filter) {
+      if (filter === "all") return false;
+      if (filter === "freeParking") return spot.parkingType !== "free";
+      if (filter === "reservationRequired") return !isReservationRequired(spot);
+      if (filter === "noReservation") return !isNoReservation(spot);
+      if (filter === "memberRequired") return !isMemberRequired(spot);
+      return spot.category !== filter;
+    }
+
+    function updateLineNote() {
+      const selected = spots.filter((spot) => selectedSpots.has(spot.name));
+      if (!selected.length) {
+        lineNoteText.value = "候補カードの「LINEノートに入れる」にチェックすると、ここに投稿文が自動で作られます。\n\n迷ったら、晴れ・雨・大人数・短時間の候補から1つずつ選ぶと共有しやすいです。";
+        return;
+      }
+
+      const lines = [
+        "【子連れ6家族以上で集まれそうな場所候補】",
+        "",
+        "起点：長久手・桑名・清洲のだいたい中心",
+        "範囲：半径30km以内目安",
+        "",
+        "候補："
+      ];
+
+      selected.forEach((spot, index) => {
+        lines.push(
+          `${index + 1}. ${spot.name}`,
+          `${spot.area}｜${spot.weather}｜滞在 ${spot.stay}`,
+          `駐車場：${spot.parking}`,
+          `料金：${spot.price}`,
+          `予約：${spot.reservation}｜会員登録：${spot.member}`,
+          `トイレ：${spot.toilet}｜おむつ替え：${spot.diaper}`,
+          `メモ：${spot.fit}`,
+          `注意：${spot.note}`,
+          `ナビ：https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(spot.query)}`,
+          ""
+        );
+      });
+
+      lines.push("決め方：晴れなら公園、雨・猛暑なら屋内、短時間なら商業施設系で調整。");
+      lineNoteText.value = lines.join("\n");
+    }
+
     function renderSpots(filter = "all") {
       grid.innerHTML = spots.map((spot) => {
-        const hidden = filter === "all"
-          ? false
-          : filter === "freeParking"
-            ? spot.parkingType !== "free"
-            : spot.category !== filter;
+        const hidden = shouldHideSpot(spot, filter);
         const mapUrl = `https://www.google.com/maps?q=${encodeURIComponent(spot.query)}&output=embed`;
         const navUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(spot.query)}`;
         const parkingUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(spot.query + " 駐車場")}`;
@@ -1147,12 +1247,20 @@
               <iframe title="${spot.name}の地図" src="${mapUrl}" height="220" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             <div class="card-body">
+              <div class="select-row">
+                <label>
+                  <input type="checkbox" data-select-spot="${spot.name}" ${selectedSpots.has(spot.name) ? "checked" : ""}>
+                  LINEノートに入れる
+                </label>
+              </div>
               <div class="tags">
                 <span class="tag ${tagClass(spot.score)}">大人数耐性 ${spot.score}</span>
                 <span class="tag ${spot.parkingType === "free" ? "free" : "paid"}">${spot.parking}</span>
                 <span class="tag ${spot.weather.includes("全天候") ? "free" : "caution"}">${spot.weather}</span>
                 <span class="tag">滞在 ${spot.stay}</span>
                 <span class="tag ${spot.crowd === "高" ? "caution" : ""}">混雑 ${spot.crowd}</span>
+                <span class="tag ${isReservationRequired(spot) ? "caution" : "free"}">予約 ${spot.reservation}</span>
+                <span class="tag ${isMemberRequired(spot) ? "caution" : "free"}">会員 ${spot.member}</span>
               </div>
               <dl class="facts">
                 <div class="fact"><dt>集合しやすさ</dt><dd>${spot.fit}</dd></div>
@@ -1160,6 +1268,8 @@
                 <div class="fact"><dt>年齢目安</dt><dd>${spot.ages}</dd></div>
                 <div class="fact"><dt>トイレ</dt><dd>${spot.toilet}</dd></div>
                 <div class="fact"><dt>おむつ替え</dt><dd>${spot.diaper}</dd></div>
+                <div class="fact"><dt>予約</dt><dd>${spot.reservation}</dd></div>
+                <div class="fact"><dt>会員登録</dt><dd>${spot.member}</dd></div>
                 <div class="fact"><dt>食事</dt><dd>${spot.food}</dd></div>
                 <div class="fact"><dt>注意点</dt><dd>${spot.note}</dd></div>
               </dl>
@@ -1173,6 +1283,17 @@
           </article>
         `;
       }).join("");
+
+      grid.querySelectorAll("[data-select-spot]").forEach((input) => {
+        input.addEventListener("change", () => {
+          if (input.checked) {
+            selectedSpots.add(input.dataset.selectSpot);
+          } else {
+            selectedSpots.delete(input.dataset.selectSpot);
+          }
+          updateLineNote();
+        });
+      });
     }
 
     buttons.forEach((button) => {
@@ -1184,6 +1305,7 @@
     });
 
     renderSpots();
+    updateLineNote();
   </script>
 </body>
 </html>
