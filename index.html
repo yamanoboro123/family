@@ -360,6 +360,41 @@
       border-bottom: 1px solid var(--line);
     }
 
+    .map-details,
+    .more-details {
+      border-top: 1px solid var(--line);
+    }
+
+    .map-details summary,
+    .more-details summary {
+      min-height: 44px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 0 20px;
+      font-weight: 900;
+      color: var(--green);
+      list-style: none;
+    }
+
+    .map-details summary::-webkit-details-marker,
+    .more-details summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .map-details summary::after,
+    .more-details summary::after {
+      content: "+";
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .map-details[open] summary::after,
+    .more-details[open] summary::after {
+      content: "-";
+    }
+
     .card-body {
       padding: 18px 20px 20px;
     }
@@ -518,9 +553,69 @@
       .toolbar-inner { align-items: stretch; }
       .filters { gap: 6px; }
       button, .link-button { padding: 0 12px; font-size: 14px; }
-      .card-top { grid-template-columns: 1fr; }
+      .card-top {
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        padding: 16px 14px 12px;
+      }
+      .spot-card h3 { font-size: 20px; }
+      .map-details summary,
+      .more-details summary {
+        display: flex;
+      }
+      .map-details {
+        border-bottom: 1px solid var(--line);
+      }
+      .map {
+        height: 170px;
+        border-bottom: 0;
+      }
+      .map iframe {
+        height: 170px;
+      }
+      .card-body {
+        padding: 14px;
+      }
+      .select-row {
+        margin-bottom: 10px;
+      }
+      .tags {
+        gap: 6px;
+        margin-bottom: 12px;
+      }
+      .tag {
+        display: none;
+        min-height: 28px;
+        font-size: 11px;
+        padding: 0 8px;
+      }
+      .tag:nth-child(1),
+      .tag:nth-child(3),
+      .tag:nth-child(4) {
+        display: inline-flex;
+      }
       .score { width: 52px; height: 52px; }
       .facts { grid-template-columns: 1fr; }
+      .fact {
+        min-height: auto;
+        padding: 8px 10px;
+      }
+      .fact dt {
+        margin-bottom: 2px;
+      }
+      .more-details {
+        margin-top: 10px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        overflow: hidden;
+      }
+      .more-details .facts {
+        padding: 10px;
+      }
+      .actions .link-button {
+        flex: 1 1 calc(50% - 8px);
+        justify-content: center;
+      }
       .quick-cards { grid-template-columns: 1fr; }
       .quick-card { min-height: 112px; }
       .source-list { columns: 1; }
@@ -1243,9 +1338,12 @@
               </div>
               <div class="score" aria-label="大人数耐性 ${spot.score}">${spot.score}</div>
             </div>
-            <div class="map">
-              <iframe title="${spot.name}の地図" src="${mapUrl}" height="220" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </div>
+            <details class="map-details" open>
+              <summary>地図を表示</summary>
+              <div class="map">
+                <iframe title="${spot.name}の地図" src="${mapUrl}" height="220" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+              </div>
+            </details>
             <div class="card-body">
               <div class="select-row">
                 <label>
@@ -1263,16 +1361,22 @@
                 <span class="tag ${isMemberRequired(spot) ? "caution" : "free"}">会員 ${spot.member}</span>
               </div>
               <dl class="facts">
-                <div class="fact"><dt>集合しやすさ</dt><dd>${spot.fit}</dd></div>
+                <div class="fact"><dt>駐車場</dt><dd>${spot.parking}</dd></div>
                 <div class="fact"><dt>料金</dt><dd>${spot.price}</dd></div>
-                <div class="fact"><dt>年齢目安</dt><dd>${spot.ages}</dd></div>
-                <div class="fact"><dt>トイレ</dt><dd>${spot.toilet}</dd></div>
-                <div class="fact"><dt>おむつ替え</dt><dd>${spot.diaper}</dd></div>
                 <div class="fact"><dt>予約</dt><dd>${spot.reservation}</dd></div>
-                <div class="fact"><dt>会員登録</dt><dd>${spot.member}</dd></div>
-                <div class="fact"><dt>食事</dt><dd>${spot.food}</dd></div>
-                <div class="fact"><dt>注意点</dt><dd>${spot.note}</dd></div>
+                <div class="fact"><dt>おむつ替え</dt><dd>${spot.diaper}</dd></div>
               </dl>
+              <details class="more-details" open>
+                <summary>詳しい情報</summary>
+                <dl class="facts">
+                  <div class="fact"><dt>集合しやすさ</dt><dd>${spot.fit}</dd></div>
+                  <div class="fact"><dt>年齢目安</dt><dd>${spot.ages}</dd></div>
+                  <div class="fact"><dt>トイレ</dt><dd>${spot.toilet}</dd></div>
+                  <div class="fact"><dt>会員登録</dt><dd>${spot.member}</dd></div>
+                  <div class="fact"><dt>食事</dt><dd>${spot.food}</dd></div>
+                  <div class="fact"><dt>注意点</dt><dd>${spot.note}</dd></div>
+                </dl>
+              </details>
               <div class="actions">
                 <a class="link-button" href="${navUrl}" target="_blank" rel="noopener">${iconPath("nav")}ナビ開始</a>
                 <a class="link-button" href="${parkingUrl}" target="_blank" rel="noopener">${iconPath("car")}駐車場検索</a>
@@ -1294,6 +1398,12 @@
           updateLineNote();
         });
       });
+
+      if (window.matchMedia("(max-width: 560px)").matches) {
+        grid.querySelectorAll(".map-details, .more-details").forEach((details) => {
+          details.open = false;
+        });
+      }
     }
 
     buttons.forEach((button) => {
