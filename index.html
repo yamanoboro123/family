@@ -835,9 +835,7 @@
       function updateLineNote() {
         const selected = spots.filter((spot) => selectedSpots.has(spot.name));
         if (!selected.length) {
-          lineNoteText.value = "候補カードの\"LINEノートに入れる\"にチェックすると、ここに投稿文が自動で作られます。
-
-迷ったら、晴れ・雨・大人数・短時間の候補から1つずつ選ぶと共有しやすいです。";
+          lineNoteText.value = "候補カードの「LINEノートに入れる」にチェックすると、ここに投稿文が自動で作られます。\n\n迷ったら、晴れ・雨・大人数・短時間の候補から1つずつ選ぶと共有しやすいです。";
           return;
         }
 
@@ -868,8 +866,7 @@
         });
 
         lines.push("決め方：晴れなら公園、雨・猛暑なら屋内、短時間なら商業施設系で調整。");
-        lineNoteText.value = lines.join("
-");
+        lineNoteText.value = lines.join("\n");
       }
 
       function renderSpots(filter = "all") {
